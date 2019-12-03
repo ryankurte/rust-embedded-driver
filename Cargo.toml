@@ -1,0 +1,9 @@
+[package]
+authors = ["ryan <ryan@kurte.nz>"]
+edition = "2018"
+name = "driver-example"
+version = "0.1.0"
+
+[dependencies.embedded-hal]
+version = "*"
+features = [ "unproven" ]

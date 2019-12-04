@@ -106,13 +106,13 @@ where
         // you're actually talking to the device
 
         // (example) Reset device
-        s.reset.set_low().map_err(|e| Error::Pin(e) )?;
+        s.reset.set_low().map_err(Error::Pin)?;
         s.delay.delay_ms(10);
-        s.reset.set_high().map_err(|e| Error::Pin(e) )?;
+        s.reset.set_high().map_err(Error::Pin)?;
 
         // (example) Wait on busy
         let mut timeout = 0;
-        while s.busy.is_low().map_err(|e| Error::Pin(e) )? {
+        while s.busy.is_low().map_err(Error::Pin)? {
             // Wait for the poll period
             timeout += s.config.poll_ms;
             s.delay.delay_ms(s.config.poll_ms);
@@ -124,12 +124,12 @@ where
         }
 
         // (example) Write something to I2C
-        s.i2c.write(0x01, &[0x01, 0x02]).map_err(|e| Error::I2c(e) )?;
+        s.i2c.write(0x01, &[0x01, 0x02]).map_err(Error::I2c)?;
 
         // (example) Write something to SPI (using manual CS)
-        s.cs.set_low().map_err(|e| Error::Pin(e) )?;
-        s.spi.write(&[0x02, 0x03]).map_err(|e| Error::Spi(e) )?;
-        s.cs.set_high().map_err(|e| Error::Pin(e) )?;
+        s.cs.set_low().map_err(Error::Pin)?;
+        s.spi.write(&[0x02, 0x03]).map_err(Error::Spi)?;
+        s.cs.set_high().map_err(Error::Pin)?;
 
         // Return the object
         Ok(s)
